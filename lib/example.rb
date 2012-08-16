@@ -20,7 +20,7 @@ one.classes.each do |klass|
   puts "   URI = #{klass.uri}"
 end
 
-puts "\ and Caterogies"
+puts " and Caterogies"
 one.categories.each do |category|
   puts "   #{category.label}"
 end
