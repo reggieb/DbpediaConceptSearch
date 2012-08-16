@@ -4,10 +4,22 @@ DbpediaConceptSearch
 A tool that queries dbpedia.org's lookup tool to find concepts, and then
 bundles the results into either ruby objects (using Hashie) or json.
 
+Installation
+------------
+
+    gem install 'dbpedia_concept_search'
+
+or if using bundler, add this to your Gemfile:
+
+    gem 'dbpedia_concept_search'
+
+
 Usage
 -----
 
 The initial search is defined by creating a new DbpediaConceptSearch:
+
+    require 'dbpedia_concept_search'
 
     search = DbpediaConceptSearch.new('place', 'London')
 
