@@ -9,12 +9,13 @@ search.results.each{|result| puts "\t#{result.label}"}
 
 puts "\nDetails of first result"
 puts "======================="
+
 one = search.results.first
 puts " Label = #{one.label}"
 puts one.description
 puts " URI = #{one.uri}"
 
-puts " With classes"
+puts " With Classes"
 one.classes.each do |klass|
   puts "   URI = #{klass.uri}"
 end
