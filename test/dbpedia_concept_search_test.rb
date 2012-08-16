@@ -73,7 +73,9 @@ class DbpediaConceptSearchTest < Test::Unit::TestCase
   end
   
   def test_to_json
-    assert(/^\[\{\"Label\"\:\"Robert\sRedford\"/ =~ @search.to_json)
+    pattern = /^\[\{\"label\"\:\"Robert\sRedford\"/
+    json = @search.to_json
+    assert(pattern =~ json, "json output should match pattern: \n#{pattern}\n\tdoes not match\n#{json}")
   end
   
   def test_infanticide

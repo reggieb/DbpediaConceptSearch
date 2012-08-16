@@ -73,7 +73,7 @@ class DbpediaConceptSearch
   end
   
   def to_json
-    hash_results_array.compact.to_json
+    processed_hash(hash_results_array.compact).to_json
   end
   
   def hash_results
