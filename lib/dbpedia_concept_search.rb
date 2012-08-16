@@ -28,7 +28,12 @@ class DbpediaConceptSearch
   end
   
   def results
-    hash_results_array.compact.collect{|result| Hashie::Mash.new(downcase_hash(result))}
+    hash_results_array.compact.collect{|result| Hashie::Mash.new(processed_hash(result))}
+  end
+  
+  def processed_hash(hash)
+    hash = infanticide(hash)
+    hash = downcase_hash(hash)
   end
   
   def downcase_hash(hash)
@@ -46,6 +51,23 @@ class DbpediaConceptSearch
     end
   end
   
+  def infanticide(hash)
+    if hash.kind_of?(Hash)
+      hash = collapse_singular_child_into_plural_parent(hash)
+      hash.each_with_object({}) do |(k, v), h|
+        h[k] = infanticide(v)
+      end
+      
+    end
+    if hash.kind_of?(Array)
+      hash.collect do |h|
+        infanticide(h)
+      end
+    else
+      return hash
+    end
+  end
+  
   def hash_from_xml
     @hash ||= Nori.parse(xml)
   end
@@ -54,13 +76,22 @@ class DbpediaConceptSearch
     hash_results_array.compact.to_json
   end
   
-  private  
   def hash_results
     hash_from_xml['ArrayOfResult']['Result']
   end
   
   def hash_results_array
     hash_results.kind_of?(Array) ? hash_results : [hash_results]
+  end
+  
+  def collapse_singular_child_into_plural_parent(hash)
+    parents = Hash.new
+    hash.each do |key, value| 
+      if value.kind_of?(Hash) and Regexp.new("^#{value.keys.first.gsub(/y\s*$/, 'i')}(s|es)") =~ key
+        parents[key] = value.values.first
+      end
+    end
+    hash.merge(parents)
   end
   
 end

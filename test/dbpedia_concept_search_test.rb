@@ -17,6 +17,12 @@ TEST_DATA = <<EOF
         <URI>http://dbpedia.org/ontology/Actor</URI>
       </Class>
     </Classes>
+    <Categories>
+      <Category>
+        <Label>1936 births</Label>
+        <URI>http://dbpedia.org/resource/Category:1936_births</URI>
+      </Category>
+    </Categories>
   </Result>
 </ArrayOfResult>      
 EOF
@@ -68,6 +74,24 @@ class DbpediaConceptSearchTest < Test::Unit::TestCase
   
   def test_to_json
     assert(/^\[\{\"Label\"\:\"Robert\sRedford\"/ =~ @search.to_json)
+  end
+  
+  def test_infanticide
+    before = {"Class" => {"Label" => 'actor', 'URI' => 'http://dbpedia.org/ontology/Actor'}}
+    after = {"Label" => 'actor', 'URI' => 'http://dbpedia.org/ontology/Actor'}
+    
+    assert_equal(before, @search.hash_results['Classes'])
+    
+    assert_equal(after, @search.infanticide(@search.hash_results)['Classes'])
+  end
+  
+  def test_infanticide_for_child_with_y_last_letter
+    before = {"Category" => {"Label" => '1936 births', 'URI' => 'http://dbpedia.org/resource/Category:1936_births'}}
+    after = {"Label" => '1936 births', 'URI' => 'http://dbpedia.org/resource/Category:1936_births'}
+    
+    assert_equal(before, @search.hash_results['Categories'])
+    
+    assert_equal(after, @search.infanticide(@search.hash_results)['Categories'])
   end
   
 end

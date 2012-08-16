@@ -1,11 +1,26 @@
 require_relative 'dbpedia_concept_search'
 
-search = DbpediaConceptSearch.new('person', 'Rooney')
+search = DbpediaConceptSearch.new('person', 'Yukihiro Matsumoto ')
 
-search.results.each{|result| puts result.label}
+puts "\nLabels for each result:"
+puts "======================="
+search.results.each{|result| puts "\t#{result.label}"}
 
 
-#TODO get classes working more neatly
+puts "\nDetails of first result"
+puts "======================="
+one = search.results.first
+puts " Label = #{one.label}"
+puts one.description
+puts " URI = #{one.uri}"
 
+puts " With classes"
+one.classes.each do |klass|
+  puts "   URI = #{klass.uri}"
+end
 
+puts "\ and Caterogies"
+one.categories.each do |category|
+  puts "   #{category.label}"
+end
 
