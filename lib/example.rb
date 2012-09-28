@@ -2,6 +2,8 @@ require_relative 'dbpedia_concept_search'
 
 search = DbpediaConceptSearch.new('person', 'Yukihiro Matsumoto ')
 
+raise "Search failed" if search.results.empty?
+
 puts "\nLabels for each result:"
 puts "======================="
 search.results.each{|result| puts "\t#{result.label}"}

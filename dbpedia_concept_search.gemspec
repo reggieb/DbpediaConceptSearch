@@ -2,7 +2,7 @@ require 'rake/gempackagetask'
 
 Gem::Specification.new do |s|
   s.name = 'dbpedia_concept_search'
-  s.version = '0.1.0'
+  s.version = '0.1.1'
   s.authors = ['Rob Nichols']
   s.date = %q{2012-08-16}
   s.description = "A tool that queries dbpedia.org's lookup tool to find concepts, and then bundles the results into either ruby objects (using Hashie) or json."
