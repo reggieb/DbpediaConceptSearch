@@ -38,10 +38,10 @@ Use search.to_json to return a JSON representation of the data.
 Background service
 ------------------
 
-DbpediaConceptSearch relies on [dbpedia lookup service](http://wiki.dbpedia.org/Lookup?show_files=1). 
+DbpediaConceptSearch relies on [the dbpedia lookup service](http://wiki.dbpedia.org/Lookup?show_files=1). 
 To test this service, check that the flowing URL returns XML describing Berlin concepts:
 
-(http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryClass=place&QueryString=berlin)
+http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryClass=place&QueryString=berlin
 
 If you get a failure, I've found the best solution is to post the error to
 dbpedia-discussion@lists.sourceforge.net.
