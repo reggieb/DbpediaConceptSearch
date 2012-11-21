@@ -1,4 +1,4 @@
-require 'rake/gempackagetask'
+require 'rubygems/package_task'
 
 Gem::Specification.new do |s|
   s.name = 'dbpedia_concept_search'
