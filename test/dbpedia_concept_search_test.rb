@@ -24,7 +24,7 @@ TEST_DATA = <<EOF
       </Category>
     </Categories>
   </Result>
-</ArrayOfResult>      
+</ArrayOfResult>
 EOF
 
 class DbpediaConceptSearch
@@ -35,7 +35,7 @@ class DbpediaConceptSearch
 end
 
 class DbpediaConceptSearchTest < Test::Unit::TestCase
-  
+
   def setup
     @query_class = 'person'
     @query_string = 'Robert Redford'
@@ -46,54 +46,61 @@ class DbpediaConceptSearchTest < Test::Unit::TestCase
   def test_monkey_patch
     assert_equal(TEST_DATA, @search.xml)
   end
-  
+
   def test_hash_from_xml
     assert_equal(Hash, @search.hash_from_xml.class)
     assert(@search.hash_from_xml.keys.include?('ArrayOfResult'), "hash keys should include 'ArrayOfResult'")
   end
-  
+
   def test_cleaned_query_string
     assert_equal(@cleaned_query_string, @search.cleaned_query_string)
   end
-  
+
   def test_dbpedia_url
     url = "http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryClass=#{@query_class}&QueryString=#{@cleaned_query_string}"
     assert_equal(url, @search.dbpedia_url)
   end
-  
+
   def test_downcase_hash
     input = {'This' => 1, 'that' => 2, 'and' => {'The' => 3, 'other' => 4}}
     expected = {'this' => 1, 'that' => 2, 'and' => {'the' => 3, 'other' => 4}}
     assert_equal(expected, @search.downcase_hash(input))
   end
-  
+
   def test_results
     result = @search.results.first
     assert_equal('http://dbpedia.org/resource/Robert_Redford', result.uri)
   end
-  
+
   def test_to_json
     pattern = /^\[\{\"label\"\:\"Robert\sRedford\"/
     json = @search.to_json
     assert(pattern =~ json, "json output should match pattern: \n#{pattern}\n\tdoes not match\n#{json}")
   end
-  
+
   def test_infanticide
     before = {"Class" => {"Label" => 'actor', 'URI' => 'http://dbpedia.org/ontology/Actor'}}
     after = {"Label" => 'actor', 'URI' => 'http://dbpedia.org/ontology/Actor'}
-    
+
     assert_equal(before, @search.hash_results['Classes'])
-    
+
     assert_equal(after, @search.infanticide(@search.hash_results)['Classes'])
   end
-  
+
   def test_infanticide_for_child_with_y_last_letter
     before = {"Category" => {"Label" => '1936 births', 'URI' => 'http://dbpedia.org/resource/Category:1936_births'}}
     after = {"Label" => '1936 births', 'URI' => 'http://dbpedia.org/resource/Category:1936_births'}
-    
+
     assert_equal(before, @search.hash_results['Categories'])
-    
+
     assert_equal(after, @search.infanticide(@search.hash_results)['Categories'])
   end
-  
+
+  def test_set_hostname
+    DbpediaConceptSearch.hostname = 'localhost:1111'
+    assert(@search.dbpedia_url =~ /localhost:1111/)
+    DbpediaConceptSearch.hostname = nil
+  end
+
+
 end
