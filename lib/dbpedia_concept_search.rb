@@ -12,7 +12,7 @@ class DbpediaConceptSearch
   end
 
   def dbpedia_url
-    %Q{http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryClass=#{query_class}&QueryString=#{cleaned_query_string}}
+    %Q{http://localhost:1111/api/search.asmx/KeywordSearch?QueryClass=#{query_class}&QueryString=#{cleaned_query_string}}
   end
 
   def cleaned_query_string
