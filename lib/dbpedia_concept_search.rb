@@ -6,13 +6,21 @@ require 'json'
 class DbpediaConceptSearch
   attr_reader :query_class, :query_string
 
+  def self.hostname
+    @hostname ||= 'lookup.dbpedia.org'
+  end
+
+  def self.hostname=(hostname)
+    @hostname = hostname
+  end
+
   def initialize(query_class, query_string)
     @query_class = query_class
     @query_string = query_string
   end
 
   def dbpedia_url
-    %Q{http://lookup.dbpedia.org/api/search.asmx/KeywordSearch?QueryClass=#{query_class}&QueryString=#{cleaned_query_string}}
+    %Q{http://#{DbpediaConceptSearch.hostname}/api/search.asmx/KeywordSearch?QueryClass=#{query_class}&QueryString=#{cleaned_query_string}}
   end
 
   def cleaned_query_string

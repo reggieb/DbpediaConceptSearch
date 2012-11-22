@@ -2,7 +2,7 @@
 require 'rubygems'
 require 'rake'
 require 'rake/clean'
-require 'rake/rdoctask'
+require 'rdoc/task'
 require 'rake/testtask'
 
 Rake::RDocTask.new do |rdoc|
