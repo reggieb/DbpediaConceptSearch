@@ -12,7 +12,8 @@ Gem::Specification.new do |s|
   s.files = ['README.md', 'LICENSE', FileList['lib/**/*.rb']].flatten
   s.add_runtime_dependency 'hashie', '~> 1.2.0'
   s.add_runtime_dependency 'json'
-  s.add_runtime_dependency 'nori'
+  s.add_runtime_dependency 'nori', '~> 2.2'
   s.add_runtime_dependency 'typhoeus'
+  s.add_runtime_dependency 'nokogiri'
   s.require_path = "lib"
 end

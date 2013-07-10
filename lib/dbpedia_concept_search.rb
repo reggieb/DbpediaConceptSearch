@@ -77,7 +77,7 @@ class DbpediaConceptSearch
   end
 
   def hash_from_xml
-    @hash ||= Nori.parse(xml)
+    @hash ||= Nori.new.parse(xml)
   end
 
   def to_json
